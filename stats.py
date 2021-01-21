@@ -102,17 +102,6 @@ class Stats:
 
 
 
-#"UPDATE table SET Age = 18 WHERE Age = 17"
-
-
-# f"""CREATE TABLE {self.stats_table} (
-#                     id integer,
-#                     name text,
-#                     actual_price real,
-#                     min_price real,
-#                     max_price real,
-#                     url text)""")
-
 ###########TEST ENV#############
 tes_env = Stats()
 # tes_env.update_item_in_stats(43902319)
