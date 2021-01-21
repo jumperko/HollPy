@@ -26,11 +26,9 @@ class Stats:
         t = table_name
         c.execute(" SELECT count(name) FROM sqlite_master WHERE type='table' AND name=? ", (t,))
         if c.fetchone()[0] == 1:
-            print("Table exists")
             conn.close()
             return True
         else:
-            print("Table does not exist.")
             conn.close()
             return False
 
@@ -43,7 +41,7 @@ class Stats:
         conn.close()
         return result
 
-    def db_item(self, item_id):
+    def db_stat_item(self, item_id):
         conn = sqlite3.connect(self.name_db)
         c = conn.cursor()
         t = (f"{item_id}",)
@@ -66,16 +64,41 @@ class Stats:
         conn.commit()
         conn.close()
 
+    def update_item_in_stats(self, id, what="actual_price", new_value=0.0):
+        conn = sqlite3.connect(self.name_db)
+        c = conn.cursor()
+        c.execute(f"UPDATE {self.stats_table} SET {what} = {new_value} WHERE id = {id} ")
+        print("update complete")
+        conn.commit()
+        conn.close()
+
     def generate_stat(self):
         full_data = self.all_data_from_table(self.original_talbe)
         for item in full_data:
-            if self.db_item(item[0]):
-                #Item existuje v stats tabulke upravujem
+            item_id = item[0]
+            item_in_stat_db = self.db_stat_item(item[0])
+            if item_in_stat_db:
+                item_price = float(item[3])
+                stat_actual_price = float(item_in_stat_db[2])
+                stat_min_price = float(item_in_stat_db[3])
+                stat_max_price = float(item_in_stat_db[4])
+                if item_price < stat_actual_price:
+                    self.update_item_in_stats(id=item_id, what="actual_price", new_value=item_price)
+                    if item_price < stat_min_price:
+                        self.update_item_in_stats(id=item_id, what="min_price", new_value=item_price)
+                elif item_price > stat_actual_price:
+                    self.update_item_in_stats(id=item_id, what="actual_price", new_value=item_price)
+                    if item_price > stat_max_price:
+                        self.update_item_in_stats(id=item_id, what="max_price", new_value=item_price)
+                else:
+                    print("Cena bez zmeny.")
+                    pass
+
                 pass
             else:
                 #Item neexistuje vytaram novy zaznam
-                self.insert_stats_item(id=item[0],name=item[0],actual=item[0],min=item[0],max=item[0])
-                pass
+                self.insert_stats_item(id=item[0], name=item[2], actual=item[3], min=item[3], max=item[3], url=item[4])
+                print(f"vytváram zaznam pre {item[0]}")
 
 
 
@@ -92,7 +115,8 @@ class Stats:
 
 ###########TEST ENV#############
 tes_env = Stats()
+# tes_env.update_item_in_stats(43902319)
 # tes_env.create_table_for_stats()
-# tes_env.generate_stat()
-tes_env.insert_stats_item()
+tes_env.generate_stat()
+# tes_env.insert_stats_item()
 # tes_env.db_item(42556823)
