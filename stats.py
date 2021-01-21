@@ -4,7 +4,7 @@ import sqlite3
 class Stats:
     def __init__(self):
         self.name_db = "hollister.db"
-        self.original_talbe = "hollister_items"
+        self.original_table = "hollister_items"
         self.stats_table = "hollister_stats"
 
     def create_table_for_stats(self):
@@ -49,7 +49,6 @@ class Stats:
         if self.check_if_table_exist(self.stats_table):
             c.execute(f'SELECT * FROM {self.stats_table} WHERE id=?', t)
             result = c.fetchone()
-            print(result)
         else:
             self.create_table_for_stats()
         conn.commit()
@@ -68,12 +67,12 @@ class Stats:
         conn = sqlite3.connect(self.name_db)
         c = conn.cursor()
         c.execute(f"UPDATE {self.stats_table} SET {what} = {new_value} WHERE id = {id} ")
-        print("update complete")
+        print(f"update complete {id}")
         conn.commit()
         conn.close()
 
     def generate_stat(self):
-        full_data = self.all_data_from_table(self.original_talbe)
+        full_data = self.all_data_from_table(self.original_table)
         for item in full_data:
             item_id = item[0]
             item_in_stat_db = self.db_stat_item(item[0])
@@ -99,13 +98,3 @@ class Stats:
                 #Item neexistuje vytaram novy zaznam
                 self.insert_stats_item(id=item[0], name=item[2], actual=item[3], min=item[3], max=item[3], url=item[4])
                 print(f"vytváram zaznam pre {item[0]}")
-
-
-
-###########TEST ENV#############
-tes_env = Stats()
-# tes_env.update_item_in_stats(43902319)
-# tes_env.create_table_for_stats()
-tes_env.generate_stat()
-# tes_env.insert_stats_item()
-# tes_env.db_item(42556823)

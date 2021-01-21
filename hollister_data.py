@@ -34,7 +34,9 @@ class HollisterData:
                 price = item.find("span", class_="product-price-text").text.strip()
                 name = item.find("a", class_="product-card__name").text.strip()
                 link = item.find("a", class_="product-card__name")["href"]
+                link_seq_no = link.split("&seq=")[1]
                 id = link.split("?")[0]
+                id = f"{id}{link_seq_no}"
                 product_id = id.split("-")[-1]
 
                 new_item = HollisterItem()
@@ -71,7 +73,7 @@ class HollisterData:
         c.execute(''' SELECT count(name) FROM sqlite_master WHERE type='table' AND name='hollister_items' ''')
         date = datetime.now().strftime("%d/%m/%y - %H:%M:%S")
         if c.fetchone()[0] == 1:
-            print('Table exists.')
+            print('Table exists. Saving DB.')
             if self.loaded_items:
                 for item in self.loaded_items:
                     c.execute("INSERT INTO hollister_items (id,date,name,price,url) VALUES (?,?,?,?,?)",
@@ -84,6 +86,7 @@ class HollisterData:
                         name text,
                         price real,
                         url text)""")
+        print("Export complete")
         conn.commit()
         conn.close()
 
