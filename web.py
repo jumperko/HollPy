@@ -18,7 +18,7 @@ def index():
 @app.route("/item/<item_id>")
 def item_detail(item_id):
     data_for_web = data_collector.find_by_id(item_id)
-    return render_template("item_price_history.html", selected_idem_data=data_for_web)
+    return render_template("item_price_history.html", item_id=item_id, selected_idem_data=data_for_web)
 
 
 if __name__ == "__main__":
