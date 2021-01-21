@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 </head>
 <body>
-  <h1 style="text-align:center">História ceny itemu {{ item_id }}</h1>
-    <table style="margin-left: auto;  margin-right: auto; border: 1px solid black">
-      <caption><a href="{{ url_for('index') }}"><-Back</a> Hollister item detail:</caption>
+  <h1 class="display-4">História ceny itemu {{ item_id }}</h1>
+    <table class="table table-hover">
       <tr>
         <th>ID</th>
         <th>Dátum</th>
         <th>Zaznamená cena</th>
       </tr>
-        {% for item in selected_idem_data %}
+      {% for item in selected_idem_data %}
       <tr>
         <td>{{ item[0] }}</td>
         <td>{{ item[1] }}</td>
         <td>{{ item[3] }}</td>
 
       </tr>
-        {% endfor %}
+      {% endfor %}
     </table>
+  <a href="{{ url_for('index') }}" class="btn btn-outline-dark">Späť</a>
 
 </body>
 </html>
