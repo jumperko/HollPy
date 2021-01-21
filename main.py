@@ -2,11 +2,12 @@ from hollister_data import HollisterData
 from stats import Stats
 
 hollister = HollisterData()
-hollister.save_data_to_json()
-hollister.export_data_to_db()
+# hollister.save_data_to_json()
+# hollister.export_data_to_db()
 
 stat_table = Stats()
-stat_table.generate_stat()
+# stat_table.generate_stat()
+print(stat_table.items_stats)
 
 #
 # lookup = hollister.find_by_id("43902319")

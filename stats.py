@@ -6,6 +6,10 @@ class Stats:
         self.name_db = "hollister.db"
         self.original_table = "hollister_items"
         self.stats_table = "hollister_stats"
+        self.items_stats = self.all_data_from_table(self.stats_table)
+
+    def update_class_item_stats(self):
+        self.items_stats = self.all_data_from_table(self.stats_table)
 
     def create_table_for_stats(self):
         conn = sqlite3.connect(self.name_db)
@@ -98,3 +102,4 @@ class Stats:
                 #Item neexistuje vytaram novy zaznam
                 self.insert_stats_item(id=item[0], name=item[2], actual=item[3], min=item[3], max=item[3], url=item[4])
                 print(f"vytváram zaznam pre {item[0]}")
+        self.update_class_item_stats()
