@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+  <h1 style="text-align:center">Databáza sledovaných produktov hollister:</h1>
+    <table style="width:70%; margin-left: auto;  margin-right: auto; border: 1px solid black">
+      <caption>Hollister stats:</caption>
+      <tr>
+        <th>ID</th>
+        <th>Nazov</th>
+        <th>Aktuálna cena</th>
+        <th>Minimálna cena</th>
+        <th>Maximálna cena</th>
+        <th>Link na produkt</th>
+      </tr>
+        {% for item in stats_data %}
+      <tr>
+        <td><a href="/{{ item[0] }}">{{ item[0] }}</a></td>
+        <td>{{ item[1] }}</td>
+        <td>{{ item[2] }}</td>
+        <td>{{ item[3] }}</td>
+        <td>{{ item[4] }}</td>
+        <td><a href="{{ item[5] }}">Link na produkt</a> </td>
+      </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
