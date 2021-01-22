@@ -21,7 +21,11 @@
       </thead>
       <tbody>
         {% for item in stats_data %}
+        {% if item[2] == item[3] and item[2] != item[4] %}
+      <tr class="table-success">
+        {% else %}
       <tr>
+        {% endif %}
         <th scope="row">{{ item[0] }}</th>
         <td>{{ item[1] }}</td>
         <td>{{ item[2] }}</td>
